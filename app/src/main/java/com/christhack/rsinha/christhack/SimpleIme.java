@@ -10,6 +10,8 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputConnection;
 
+import com.christhack.rsinha.christhack.database.MyDataBase;
+
 public class SimpleIme extends InputMethodService implements KeyboardView.OnKeyboardActionListener {
 
     private KeyboardView kv;
@@ -90,7 +92,7 @@ public class SimpleIme extends InputMethodService implements KeyboardView.OnKeyb
         sentence.delete(0, sentence.length());
 
         //TODO Save the sentence to the database
-        //MyDataBase.insert(this,sen);
+        MyDataBase.insert(this,sen);
     }
     @Override
     public void onText(CharSequence charSequence) {
