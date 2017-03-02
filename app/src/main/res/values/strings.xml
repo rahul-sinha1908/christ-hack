@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">ChristHack</string>
+    <string name="app_name">Christ Hack</string>
+    <string name="simple_ime">Christ Hack Keyboard</string>
+    <string name="subtype_en_US">English (US)</string>
 </resources>
