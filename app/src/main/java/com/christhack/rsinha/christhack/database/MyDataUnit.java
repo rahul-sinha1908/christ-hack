@@ -14,13 +14,21 @@ import android.util.Log;
 //import org.apache.http.impl.client.DefaultHttpClient;
 //import org.apache.http.message.BasicNameValuePair;
 //import org.apache.http.util.EntityUtils;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.ibm.watson.developer_cloud.alchemy.v1.AlchemyLanguage;
+import com.ibm.watson.developer_cloud.alchemy.v1.model.DocumentEmotion;
+import com.ibm.watson.developer_cloud.http.ServiceCall;
+
 import org.json.JSONArray;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -30,77 +38,57 @@ import java.util.List;
 public class MyDataUnit {
     private String text;
     Double positive,  negative,neutral;
-    private ArrayList<Emotions> emotions;
     private String TAG = "MyDatabase";
     private Context context;
+    private DatabaseReference myDataBase;
 
     public MyDataUnit(String text, Context cont) {
-        emotions = new ArrayList<Emotions>();
         this.text = text;
         context = cont;
+        myDataBase= FirebaseDatabase.getInstance().getReference();
+        myDataBase.setValue("Hello");
         getSentiments();
     }
 
     public void getSentiments() {
-        new GetData(true, context).execute();
+        new FetchData(text).execute();
     }
 
-    public class Emotions {
-        String emotions;
-        int value;
-    }
-
-    public class GetData extends AsyncTask<Void, Void, Void> {
-        private String link = "https://api.theysay.io/v1/";
-        private Context cont;
-
-        public GetData(boolean sentiment, Context context) {
-            Log.i(TAG, "It got in initialisation");
-            cont = context;
-            if (sentiment)
-                link = link + "sentiment";
-            else
-                link = link + "emotion";
-            Log.i(TAG, "It got initialised");
+    class FetchData extends AsyncTask<Void, Void, Void>{
+        private String message;
+        public FetchData(String mess){
+            message=mess;
         }
 
         @Override
-        protected Void doInBackground(Void... voids) {
+        protected Void doInBackground(Void... params) {
+
             try {
-//                Log.i(TAG, "Backgroud Work");
-//                HttpClient httpClient = new DefaultHttpClient();
-//                HttpPost httpGet = new HttpPost(link);
-//                List<NameValuePair> ln = new ArrayList<NameValuePair>();
-//                ln.add(new BasicNameValuePair("text", text));
-//                ln.add(new BasicNameValuePair("level", "sentence"));
-//                httpGet.setEntity(new UrlEncodedFormEntity(ln));
-//                //Log.i("Check", "Connecting...");
-//                HttpResponse httpResponse = httpClient.execute(httpGet);
-//                //publishProgress("Entity Creating...");
-//                //Log.i("Check","Entity Creating..." );
-//                HttpEntity httpEntity = httpResponse.getEntity();
-//
-//                //Log.i("Check","1st Place");
-//                String para = EntityUtils.toString(httpEntity);
-//                Log.i(TAG, "Data got : "+para);
+                AlchemyLanguage service = new AlchemyLanguage();
+                service.setApiKey("0fd9a51cd63514147b56e2a2cad1a0ccb2e97073");
+                service.setEndPoint("https://gateway-a.watsonplatform.net/calls");
+                //service.setUsernameAndPassword("1655e4b1-ddae-411a-b9ec-77dbf4aa8f6c", "6BqRQ0Jqhdnf");
+//                service.setLanguage(LanguageSelection.ENGLISH);
+                Map<String, Object> myMap = new HashMap<String, Object>();
+                myMap.put("text", new String(message));
+                Log.i(TAG, "Its Starting to process : " + message);
+                ServiceCall<DocumentEmotion> call = service.getEmotion(myMap);
+                if(call !=null)
+                    Log.i(TAG, "Its got processed 1");
+                DocumentEmotion emotion = call.execute();
+                Log.i(TAG, "Its got processed 0");
+                DocumentEmotion.Emotion emo = emotion.getEmotion();
+                Log.i(TAG, "Its got processed");
 
-
-
-                //TODO Here Add the code to extract words from the sentence and find the sentiments for local analysis
-
-            } catch (Exception e) {
-                Log.i(TAG,"Here 226 "+e.getMessage());
+                Log.i(TAG, "Anger : " + emo.getAnger());
+                Log.i(TAG, "Disgust : " + emo.getDisgust());
+                Log.i(TAG, "Fear : " + emo.getFear());
+                Log.i(TAG, "Joy : " + emo.getJoy());
+                Log.i(TAG, "Sadness : " + emo.getSadness());
+            }catch (Exception ex){
+                Log.i(TAG, ex.getMessage());
             }
-            //Log.i("Check",para);
-            //JSONArray jsonArray = new JSONArray(para);
-            Log.i(TAG, "Done");
             return null;
         }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-        }
-        //public void extractWords
     }
 }

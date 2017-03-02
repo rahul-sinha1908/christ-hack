@@ -63,7 +63,7 @@ public class SimpleIme extends InputMethodService implements KeyboardView.OnKeyb
         switch(primaryCode){
             case Keyboard.KEYCODE_DELETE :
                 ic.deleteSurroundingText(1, 0);
-                if(sentence.length()==0)
+                if(sentence.length()!=0)
                     sentence.deleteCharAt(sentence.length()-1);
                 break;
             case Keyboard.KEYCODE_SHIFT:
@@ -90,7 +90,8 @@ public class SimpleIme extends InputMethodService implements KeyboardView.OnKeyb
     private void saveSentence(){
         String sen=sentence.toString();
         sentence.delete(0, sentence.length());
-
+        if(sen.equals(" ") || sen.equals(".") || sen.equals(". ") || sen.length()<2)
+            return;
         //TODO Save the sentence to the database
         MyDataBase.insert(this,sen);
     }

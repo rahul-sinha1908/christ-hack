@@ -53,7 +53,7 @@ public class MyDataBase {
             String sql="INSERT INTO `"+table+"` VALUES('"+text+"')";
             sdb.execSQL(sql);
             Log.i(T, "It reached here . 11 :"+text);
-            if(getTableSize(cont)>=2)
+            if(getTableSize(cont)>=3)
                 getData(cont);
         }catch(Exception ex){
             Log.i(T, ex.getMessage());
