@@ -85,11 +85,13 @@ public class MyDataUnit {
                 Log.i(TAG, "Fear : " + emo.getFear());
                 Log.i(TAG, "Joy : " + emo.getJoy());
                 Log.i(TAG, "Sadness : " + emo.getSadness());
-                myDataBase.child("abc").child("data").child("anger").setValue(emo.getAnger());
-                myDataBase.child("abc").child("data").child("disgust").setValue(emo.getDisgust());
-                myDataBase.child("abc").child("data").child("fear").setValue(emo.getFear());
-                myDataBase.child("abc").child("data").child("happy").setValue(emo.getJoy());
-                myDataBase.child("abc").child("data").child("sad").setValue(emo.getSadness());
+                String user=SharedP.getValues(context,"name");
+                String college=SharedP.getValues(context, "college");
+                myDataBase.child(college).child("data").child("anger").setValue(emo.getAnger());
+                myDataBase.child(college).child("data").child("disgust").setValue(emo.getDisgust());
+                myDataBase.child(college).child("data").child("fear").setValue(emo.getFear());
+                myDataBase.child(college).child("data").child("happy").setValue(emo.getJoy());
+                myDataBase.child(college).child("data").child("sad").setValue(emo.getSadness());
             }catch (Exception ex){
                 Log.i(TAG, ex.getMessage());
             }

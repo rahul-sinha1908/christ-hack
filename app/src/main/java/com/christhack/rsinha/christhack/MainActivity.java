@@ -7,7 +7,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.christhack.rsinha.christhack.database.SharedP;
 import com.ibm.watson.developer_cloud.alchemy.v1.AlchemyLanguage;
 import com.ibm.watson.developer_cloud.alchemy.v1.model.DocumentEmotion;
 import com.ibm.watson.developer_cloud.alchemy.v1.model.LanguageSelection;
@@ -20,7 +22,7 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
 
     private String TAG = "MainActivity";
-    private EditText editText;
+    private EditText editText, collegeText;
     private Button button;
 
     @Override
@@ -29,51 +31,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         editText=(EditText)findViewById(R.id.sample_id);
+        collegeText=(EditText)findViewById(R.id.college_id);
         button=(Button) findViewById(R.id.process_button);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new FetchData(editText.getText().toString()).execute();
+                //new FetchData(editText.getText().toString()).execute();
+                SharedP.setValues(MainActivity.this, "name", editText.getText().toString());
+                SharedP.setValues(MainActivity.this, "college", collegeText.getText().toString());
+                Toast.makeText(MainActivity.this, "You are successfully logged in.", Toast.LENGTH_LONG).show();
             }
         });
         //service.getEmotion();
-    }
-    class FetchData extends AsyncTask<Void, Void, Void>{
-        private String message;
-        public FetchData(String mess){
-            message=mess;
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-
-            try {
-                AlchemyLanguage service = new AlchemyLanguage();
-                service.setApiKey("0fd9a51cd63514147b56e2a2cad1a0ccb2e97073");
-                service.setEndPoint("https://gateway-a.watsonplatform.net/calls");
-                //service.setUsernameAndPassword("1655e4b1-ddae-411a-b9ec-77dbf4aa8f6c", "6BqRQ0Jqhdnf");
-//                service.setLanguage(LanguageSelection.ENGLISH);
-                Map<String, Object> myMap = new HashMap<String, Object>();
-                myMap.put("text", new String(message));
-                Log.i(TAG, "Its Starting to process : " + message);
-                ServiceCall<DocumentEmotion> call = service.getEmotion(myMap);
-                if(call !=null)
-                    Log.i(TAG, "Its got processed 1");
-                DocumentEmotion emotion = call.execute();
-                Log.i(TAG, "Its got processed 0");
-                DocumentEmotion.Emotion emo = emotion.getEmotion();
-                Log.i(TAG, "Its got processed");
-
-                Log.i(TAG, "Anger : " + emo.getAnger());
-                Log.i(TAG, "Disgust : " + emo.getDisgust());
-                Log.i(TAG, "Fear : " + emo.getFear());
-                Log.i(TAG, "Happy : " + emo.getJoy());
-                Log.i(TAG, "Sadness : " + emo.getSadness());
-            }catch (Exception ex){
-                Log.i(TAG, ex.getMessage());
-            }
-            return null;
-        }
     }
 }

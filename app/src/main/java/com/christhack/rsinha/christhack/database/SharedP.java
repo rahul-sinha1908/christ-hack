@@ -20,10 +20,24 @@ public class SharedP {
         createSharedPref(cont);
         return sp.getString("MyID", "U0000");
     }
+    public static String getValues(Context cont, String name){
+        createSharedPref(cont);
+        return sp.getString(name, "");
+    }
+    public static String getValues(Context cont, String name, String defaultV){
+        createSharedPref(cont);
+        return sp.getString(name, defaultV);
+    }
     public static void setMyID(Context cont,String id){
         createSharedPref(cont);
         SharedPreferences.Editor spe = sp.edit();
         spe.putString("MyID", id);
+        spe.apply();
+    }
+    public static void setValues(Context cont,String name, String value){
+        createSharedPref(cont);
+        SharedPreferences.Editor spe = sp.edit();
+        spe.putString(name, value);
         spe.apply();
     }
 

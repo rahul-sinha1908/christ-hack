@@ -14,11 +14,18 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter the Text"
+        android:hint="Enter Your Name"
         android:id="@+id/sample_id"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter Your Name"
+        android:id="@+id/college_id"/>
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Process Request"
+        android:text="Log In"
         android:id="@+id/process_button"/>
 </LinearLayout>
