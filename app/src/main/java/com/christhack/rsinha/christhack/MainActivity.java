@@ -51,33 +51,12 @@ public class MainActivity extends AppCompatActivity {
             try {
                 AlchemyLanguage service = new AlchemyLanguage();
                 service.setApiKey("0fd9a51cd63514147b56e2a2cad1a0ccb2e97073");
-                service.setEndPoint("https://gateway.watsonplatform.net/natural-language-understanding/api");
-                service.setUsernameAndPassword("1655e4b1-ddae-411a-b9ec-77dbf4aa8f6c", "6BqRQ0Jqhdnf");
-                service.setLanguage(LanguageSelection.ENGLISH);
-
+                service.setEndPoint("https://gateway-a.watsonplatform.net/calls");
+                //service.setUsernameAndPassword("1655e4b1-ddae-411a-b9ec-77dbf4aa8f6c", "6BqRQ0Jqhdnf");
+//                service.setLanguage(LanguageSelection.ENGLISH);
                 Map<String, Object> myMap = new HashMap<String, Object>();
                 myMap.put("text", new String(message));
                 Log.i(TAG, "Its Starting to process : " + message);
-//                service.getEmotion(myMap).enqueue(new ServiceCallback<DocumentEmotion>() {
-//                    @Override
-//                    public void onResponse(DocumentEmotion emotion) {
-//                        Log.i(TAG, "Its got processed 0");
-//                        DocumentEmotion.Emotion emo = emotion.getEmotion();
-//                        Log.i(TAG, "Its got processed");
-//
-//                        Log.i(TAG, "Anger : " + emo.getAnger());
-//                        Log.i(TAG, "Disgust : " + emo.getDisgust());
-//                        Log.i(TAG, "Fear : " + emo.getFear());
-//                        Log.i(TAG, "Joy : " + emo.getJoy());
-//                        Log.i(TAG, "Sadness : " + emo.getSadness());
-//
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Exception e) {
-//                        Log.i(TAG, "Error is : "+e.getMessage());
-//                    }
-//                });
                 ServiceCall<DocumentEmotion> call = service.getEmotion(myMap);
                 if(call !=null)
                     Log.i(TAG, "Its got processed 1");
