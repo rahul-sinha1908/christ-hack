@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.i(TAG, "Anger : " + emo.getAnger());
                 Log.i(TAG, "Disgust : " + emo.getDisgust());
                 Log.i(TAG, "Fear : " + emo.getFear());
-                Log.i(TAG, "Joy : " + emo.getJoy());
+                Log.i(TAG, "Happy : " + emo.getJoy());
                 Log.i(TAG, "Sadness : " + emo.getSadness());
             }catch (Exception ex){
                 Log.i(TAG, ex.getMessage());
