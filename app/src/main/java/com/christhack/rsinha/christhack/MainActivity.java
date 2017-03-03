@@ -40,6 +40,11 @@ public class MainActivity extends AppCompatActivity {
                 //new FetchData(editText.getText().toString()).execute();
                 SharedP.setValues(MainActivity.this, "name", editText.getText().toString());
                 SharedP.setValues(MainActivity.this, "college", collegeText.getText().toString());
+                SharedP.setAnger(MainActivity.this, 0);
+                SharedP.setFear(MainActivity.this, 0);
+                SharedP.setHappy(MainActivity.this, 0);
+                SharedP.setSad(MainActivity.this, 0);
+                SharedP.setDisgust(MainActivity.this, 0);
                 Toast.makeText(MainActivity.this, "You are successfully logged in.", Toast.LENGTH_LONG).show();
             }
         });
